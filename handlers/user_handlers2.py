@@ -36,6 +36,7 @@ async def process_get_price_2(message: Message, state: FSMContext):
     symbol_text = message.text
     answer_get_price = f'Текущая стоимость монеты {symbol_text} составляет {get_price(symbol_text)}'
     await message.answer(text=answer_get_price)
+    await state.clear()
 #-------------------------------------------------------
 # Этот хэндлер срабатывает на клавишу "Узнать баланс кошелька"
 @router.message(F.text == LEXICON['get balance'])
@@ -43,6 +44,7 @@ async def process_get_balance(message: Message, state: FSMContext):
     #await state.set_state(States.balance)
     answer_get_balance = f'Ваш баланс в USD: {get_wallet_balance()}'
     await message.answer(text=answer_get_balance)
+    await state.clear()
 #-------------------------------------------------------
 # Этот хэндлер срабатывает на клавишу "Открыть рыночуную заявку"
 @router.message(F.text == LEXICON['set market order'])
@@ -57,6 +59,7 @@ async def process_set_market_order_2(message: Message, state: FSMContext):
     market_order = get_market_order_bybit(answer_lst[0], answer_lst[1], answer_lst[2], float(answer_lst[3]))
     answer_text = f'Ваша рыночная заявка: "категория" - {answer_lst[0]}, "валютная пара - {answer_lst[1]}, тип - {answer_lst[2]}, сумма покупки - {answer_lst[3]}" успешно размещена! Ордер заявки - {market_order['result']['orderId']}'
     await message.answer(answer_text)
+    await state.clear()
 #---------------------------------------------------------
 # Этот хэндлер срабатывает на клавишу "Открыть лимитную заявку"
 @router.message(F.text == LEXICON['set limit order'])
@@ -71,4 +74,5 @@ async def process_set_limit_order_2(message: Message, state: FSMContext):
     limit_order = get_limit_order_bybit(answer_lst[0], answer_lst[1], answer_lst[2], float(answer_lst[3]), float(answer_lst[4]))
     answer_text_limit = f'Ваша лимитная заявка: "категория" - {answer_lst[0]}, "валютная пара - {answer_lst[1]}, тип - {answer_lst[2]}, стоимость - {answer_lst[3]}, сумма покупки - {answer_lst[4]}" успешно размещена! Ордер заявки - {limit_order['result']['orderId']}'
     await message.answer(answer_text_limit)
+    await state.clear()
 # ---------------------------------------------------------

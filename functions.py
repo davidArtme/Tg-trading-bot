@@ -51,7 +51,8 @@ def get_wallet_balance():
     header_get_balance_bybit["X-BAPI-SIGN"] = get_signature_wallet1('get', data1, timestamp)
     wallet = requests.get(url=url_wallet, params=data1, headers=header_get_balance_bybit).json()
     dict_balance = {}
-    for i in range(len(wallet['result']['list'][0])):
+    numberOfCoins = len(wallet['result']['list'][0]['coin'])
+    for i in range(numberOfCoins):
         dict_balance[wallet['result']['list'][0]['coin'][i]['coin']] = wallet['result']['list'][0]['coin'][i]['usdValue']
     return dict_balance
 # market order ---------------------------------------
